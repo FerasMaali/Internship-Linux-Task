@@ -86,8 +86,15 @@ Write a shell script that will keep running for 10 mins in the background and ch
 ## Part 8: Network management
 
 1. Open port 443 , 80
+```
+	iptables -A INPUT -p tcp –dport 80 -j ACCEPT
+	iptables -A INPUT -p tcp –dport 443 -j ACCEPT
+```
 2. Make the changes permanent
 3. Block ssh connection for your colleague ip to the VM.
+```
+	iptables -I INPUT -s 192.168.229.129 -p tcp --dport ssh -j REJECT
+```
 
 ## Part 9: Cronjob
 
@@ -97,7 +104,7 @@ Note: the cronjob can run a script.
 * Use `crontab -e` to enter cron jobs file
 * add `30 1 * * * w | tail -n +3 | awk '{ print $1 }' | sort | uniq` to the file
 
-#3 Part 10: Mariadb  
+## Part 10: Mariadb  
 
 1. install mariadb from the local repo that was created earlier.
 2. open ports in iptables for mariadb.
