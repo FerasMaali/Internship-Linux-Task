@@ -87,10 +87,14 @@ Write a shell script that will keep running for 10 mins in the background and ch
 
 1. Open port 443 , 80
 ```
+	# We need to disable firewalld before using iptables
 	iptables -A INPUT -p tcp –dport 80 -j ACCEPT
 	iptables -A INPUT -p tcp –dport 443 -j ACCEPT
 ```
 2. Make the changes permanent
+```
+	service iptables save
+```
 3. Block ssh connection for your colleague ip to the VM.
 ```
 	iptables -I INPUT -s 192.168.229.129 -p tcp --dport ssh -j REJECT
@@ -107,9 +111,30 @@ Note: the cronjob can run a script.
 ## Part 10: Mariadb  
 
 1. install mariadb from the local repo that was created earlier.
+```
+	yum install mariadb
+	yum install mariadb-server
+```
 2. open ports in iptables for mariadb.
+```
+	iptables -A INPUT -p tcp --dport mysql -j ACCEPT
+```
 3. create database , user(note: handle permissions).
+```
+	CREATE DATABASE studentdb;
+	CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+	USE studentdb;
+	CREATE TABLE STUDENT ( 
+		firstname VARCHAR(30) NOT NULL,
+		lastname VARCHAR(30) NOT NULL,
+		program_enrolled VARCHAR(30) NOT NULL
+	);
+	GRANT INSERT, SELECT ON studentdb.STUDENT TO 'user'@'localhost';
+```
 4. connect to the database created in step 3 using the new user (with password)
+```
+	mysql -u user -p
+```
 
 Example schema : 
 
