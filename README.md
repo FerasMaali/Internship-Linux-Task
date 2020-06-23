@@ -121,20 +121,39 @@ Note: the cronjob can run a script.
 ```
 3. create database , user(note: handle permissions).
 ```
-	CREATE DATABASE studentdb;
-	CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
-	USE studentdb;
-	CREATE TABLE STUDENT ( 
-		firstname VARCHAR(30) NOT NULL,
-		lastname VARCHAR(30) NOT NULL,
-		program_enrolled VARCHAR(30) NOT NULL
-	);
-	GRANT INSERT, SELECT ON studentdb.STUDENT TO 'user'@'localhost';
+	CREATE USER 'user'@'192.168.229.129' IDENTIFIED BY 'password';
+	GRANT CREATE, INSERT ON *.* TO 'user'@'192.168.229.129';
 ```
 4. connect to the database created in step 3 using the new user (with password)
-```
-	mysql -u user -p
-```
+	* At first, we connect from the remote host using remote user privilages
+	```
+		mysql -h 192.168.229.133 -u user -ppassword;
+	```
+	* Then we do our db stuff
+	```
+		CREATE DATABASE studentdb;
+		USE studentdb;
+		
+		CREATE TABLE STUDENT ( 
+			firstname VARCHAR(30) NOT NULL,
+			lastname VARCHAR(30) NOT NULL,
+			program_enrolled VARCHAR(30) NOT NULL
+		);
+		
+		INSERT INTO STUDENT (firstname, lastname, program_enrolled)
+		VALUES	('f', 'b', 'computer science'),
+			('f', 'r', 'computer science'),
+			('x', 'b', 'computer science'),
+			('a', 'c', 'computer science'),
+			
+			('q', 't', 'electrical'),
+			('w', 'l', 'electrical'),
+			('e', 'j', 'electrical'),
+			
+			('y', 'h', 'mechanical'),
+			('u', 'v', 'mechanical'),
+			('o', 'x', 'mechanical');
+	```
 
 Example schema : 
 
