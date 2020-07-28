@@ -1,4 +1,4 @@
-# Internship-Linux-Task-3
+# Internship-Linux-Task
 ## Part 1: LVM 
 
 Create a volume group, and set 16M as extents. And divided a volume group containing 50 extents on volume group lv, make it as ext4 file system, and mounted automatically under /mnt/data. Please note that this should be implemented on the second disk
